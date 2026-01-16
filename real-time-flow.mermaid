@@ -10,40 +10,27 @@ sequenceDiagram
 
     Note over DS,Analyst: Real-Time Context Graph Update Flow
 
-    %% Event Ingestion
-    DS->>Kafka: 1. New Event<br/>(e.g., "NVDA announces<br/>new AI chip")
-    Kafka->>SP: 2. Stream event
+    DS->>Kafka: New event (NVDA announces new AI chip)
+    Kafka->>SP: Stream event
 
-    %% Stream Processing
-    SP->>NLP: 3. Extract entities & intent
-    NLP-->>SP: 4. Entities: NVDA, AI Chip, Market
+    SP->>NLP: Extract entities and intent
+    NLP-->>SP: Entities: NVDA, AI Chip, Market
 
-    %% Graph Update
-    SP->>GDB: 5. Update relationships
-    GDB-->>SP: 6. Graph mutation complete
+    SP->>GDB: Update relationships
+    GDB-->>SP: Graph mutation complete
 
-    %% Graph Intelligence
-    GDB->>GNN: 7. Trigger neighborhood embedding
-    GNN-->>Cache: 8. Store updated vectors
+    GDB->>GNN: Trigger neighborhood embedding
+    GNN-->>Cache: Store updated vectors
 
-    %% Cache Update
-    Cache-->>GDB: 9. Sync embeddings
+    Cache-->>GDB: Sync embeddings
 
-    %% Downstream Notification
-    Cache->>Analyst: 10. Context updated<br/>Affected entities: 47
+    Cache->>Analyst: Context updated (47 entities affected)
 
-    %% Analyst Query
-    rect rgb(40, 40, 120)
-        Note over Analyst:
-            Query:<br/>
-            "How does NVDA's announcement affect AI stocks?"<br/><br/>
-            ✓ Sector momentum shift<br/>
-            ✓ Historical pattern matches
-    end
+    Note over Analyst: Query - How does NVDA announcement affect AI stocks?
 
-    Analyst->>GDB: 11. Query enriched context
-    GDB-->>Analyst: 12. Return augmented data<br/>+ embeddings + scenarios
+    Analyst->>GDB: Query enriched context
+    GDB-->>Analyst: Return augmented data and scenarios
 
-    Analyst->>Analyst: 13. Generate investment thesis
+    Analyst->>Analyst: Generate investment thesis
 
-    Note over DS,Analyst: ⏱️ Total latency: 500ms – 2s for complete update
+    Note over DS,Analyst: Total latency approx 500ms to 2s
